@@ -1,3 +1,5 @@
+const imgDelete = "/image/icons8-remover.svg";
+
 const form = document.querySelector("#novoItem");
 const lista = document.querySelector("#lista");
 const itens = JSON.parse(localStorage.getItem("items")) || [];
@@ -19,10 +21,10 @@ form.addEventListener("submit", (e) => {
 	};
 
 	if (exists) {
-		item.id = exists.id;
+		itens[itens.findindex((elemento) => elemento.id === exists.id)] = item;
 		atualizaElemento(item);
 	} else {
-		item.id = itens.length;
+		item.id = itens[itens.length - 1] ? itens[itens.length - 1].id + 1 : 0;
 		criaElemento(item);
 		itens.push(item);
 	}
@@ -43,10 +45,36 @@ function criaElemento(item) {
 
 	novoItem.innerHTML += item.nome;
 	novoItem.appendChild(numeroItem);
+	novoItem.appendChild(bntDelete(item.id));
 
 	lista.appendChild(novoItem);
 }
 
 function atualizaElemento(item) {
 	document.querySelector(`[data-id="${item.id}"]`).innerHTML = item.quantidade;
+}
+
+function bntDelete(id) {
+	const bnt = document.createElement("img");
+	bnt.setAttribute("src", imgDelete);
+	bnt.ariaHidden = true;
+
+	bnt.addEventListener("click", function () {
+		deleteItem(this.parentElement, id);
+	});
+
+	return bnt;
+}
+
+function deleteItem(item, id) {
+	item.remove();
+
+	itens.splice(
+		itens.findIndex((element) => element.id === id),
+		1
+	);
+
+	localStorage.setItem("items", JSON.stringify(itens));
+
+	return null;
 }

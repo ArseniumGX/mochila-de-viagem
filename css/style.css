@@ -165,6 +165,7 @@ html {
 }
 
 .item {
+	position: relative;
 	list-style: none;
 	padding: 0.6em 2em;
 	background: #ffffff;
@@ -187,4 +188,12 @@ html {
 	height: 40px;
 	background: #c5965f;
 	font-weight: 400;
+}
+
+.item img {
+	position: absolute;
+	top: calc(width / 2);
+	right: 10px;
+	padding: 10px;
+	cursor: pointer;
 }
